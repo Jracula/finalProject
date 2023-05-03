@@ -361,7 +361,7 @@ public class ProductController {
 		}
 		int result = service.insertProduct(p, fileList);
 		if(result == (fileList.size()+1)) {
-			return "redirect:/";
+			return "redirect:/insertProductFrm.do";
 		} else {
 			return "redirect:/insertProductFrm.do";
 		}
