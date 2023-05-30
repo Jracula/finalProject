@@ -133,6 +133,15 @@
     
 
 <div class="content-wrap">
+
+	<c:if test="${sessionScope.m.memberStatus eq 0 }">
+		<h5>관리자 메뉴</h5>
+		<form action="#" id="adminProductDelete">
+			<button class="btn btn-pri size02" style="display: inline-block; margin-top:10px;">상품삭제</button>
+		</form>
+	</c:if>
+	
+	
 	<c:if test="${not empty sessionScope.m }">
 			<!-- <form action="/orderSheet.do" method="post">
 				<input type="hidden" name="productNo">
@@ -1277,6 +1286,61 @@
                 }
 
             });
+            
+            
+            // 관리자 상품 삭제
+            $("#adminProductDelete").submit(function (e) {
+                const productNo = $("#productNo").val();
+
+				// 폼 제출 막음
+				e.preventDefault();
+				
+				productDeleteAlert('error', this);
+				
+			});
+			
+         	// 상품 삭제 alert
+    		function productDeleteAlert(type, form) {
+    		let $type = type;
+    		switch ($type) {
+    			case 'error':
+    			messageBox = $.parseHTML('<div class="alert__error" style="text-align:center;"><div class="title" style="margin-bottom:10px;color:var(--error);padding:0;">뭉쳐야산다</div><div style="margin: 50px auto;"><div style="margin-top:10px;">관리자 권한으로 선택한 상품을 삭제하시겠습니까?</div></div></div>');			
+    			break;
+    		}
+    		$("body").append(messageBox);
+    		$(messageBox).dialog({
+    			dialogClass :$type,
+    			// open: $(messageBox).append(msg),
+    			draggable: false,
+    			modal: true,
+    			width: 400,
+    			buttons: [
+    				{
+    					text: "삭제",
+    					style: "margin-right:5px",
+    					click: function(){
+    						$(this).dialog("close");
+
+    						form.submit();
+    					}
+    				},
+    				{
+    					text: "취소",
+    					click: function(){
+    						$(this).dialog("close");
+    					}
+    				}
+    			],
+    			show: {
+    				effect: 'fade',
+    				duration: 200 //at your convenience
+    			},
+    			hide: {
+    				effect: 'fade',
+    				duration: 200 //at your convenience
+    			}
+    		});
+    	};
 
         </script>
         
